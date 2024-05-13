@@ -1,9 +1,9 @@
-package list.exercicio;
+package list.exercicio.opeacoesBasicas;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import list.OperacoesBasicas.Tarefa;
+import list.operacoesBasicas.Tarefa;
 
 public class CarrinhoCompra {
 

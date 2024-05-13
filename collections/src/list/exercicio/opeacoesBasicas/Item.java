@@ -1,4 +1,4 @@
-package list.exercicio;
+package list.exercicio.opeacoesBasicas;
 
 public class Item {
 	private String nome;
