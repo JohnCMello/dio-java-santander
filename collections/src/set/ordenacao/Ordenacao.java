@@ -1,4 +1,4 @@
-package set.Ordenacao;
+package set.ordenacao;
 
 public class Ordenacao {
 

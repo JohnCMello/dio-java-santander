@@ -1,4 +1,4 @@
-package set.exercicio;
+package set.exercicio.pesquisa;
 
 public class Main {
 

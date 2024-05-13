@@ -1,8 +1,8 @@
-package set.Pesquisa;
+package set.pesquisa;
 
 import java.util.Objects;
 
-import set.OperacoesBasicas.Convidado;
+import set.operacoesBasicas.Convidado;
 
 public class Contato {
 

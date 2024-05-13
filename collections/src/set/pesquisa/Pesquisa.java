@@ -1,4 +1,4 @@
-package set.Pesquisa;
+package set.pesquisa;
 
 public class Pesquisa {
 

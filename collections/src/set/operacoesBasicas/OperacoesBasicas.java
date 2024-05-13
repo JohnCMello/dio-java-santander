@@ -1,4 +1,4 @@
-package set.OperacoesBasicas;
+package set.operacoesBasicas;
 
 public class OperacoesBasicas {
 
