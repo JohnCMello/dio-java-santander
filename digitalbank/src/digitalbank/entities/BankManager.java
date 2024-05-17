@@ -20,11 +20,16 @@ public class BankManager {
 		Scanner sc = new Scanner(System.in);
 		Bank bank = new Bank();
 		boolean isRunning = true;
+		boolean isFirstLoad = true;
 		int option;
-
+	
 		do {
-			clearScreen();
 			displayMenu();
+			if(isFirstLoad) {
+				isFirstLoad=false;
+				clearScreen();
+				displayMenu();
+			}
 			try {
 				option = getValidMenuOption(sc);
 			} catch (InvalidMenuOptionException e) {
@@ -187,14 +192,17 @@ public class BankManager {
 							} while (!returnToMainMenu);
 
 							if (returnToMainMenu)
+								clearScreen();
 								break;
 
 						}
 					} while (!removeAccountConfirmationOption.equals(YES_OPTION)
 							&& !removeAccountConfirmationOption.equals(NO_OPTION));
 
-					if (returnToMainMenu)
+					if (returnToMainMenu) {
+						clearScreen();
 						break;
+					}
 
 					Account removedAccount = bank.removeAccount(socialNumber,
 							isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING);
@@ -244,7 +252,9 @@ public class BankManager {
 					accounts = bank.getAllAccountsByType(isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING);
 
 					if (accounts.size() == 0) {
-						System.out.println("Totals de contas " + (isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING) + ": " + accounts.size());
+						System.out.println(
+								"\nTotals de contas " + (isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING)
+										+ ": " + accounts.size());
 						returnToMainMenu = askToReturnToMainMenu(sc);
 
 						if (returnToMainMenu) {
@@ -252,6 +262,12 @@ public class BankManager {
 							break;
 						}
 					}
+					
+					System.out.println(
+							"\nTotals de contas " + (isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING)
+									+ ": " + accounts.size());
+					System.out.println("######################################\n");
+					
 					for (Account account : accounts) {
 						System.out.println(account);
 					}
@@ -416,7 +432,7 @@ public class BankManager {
 
 					}
 
-					bank.transferFunds(targetSocialNumber, sourceAccount, targetAccount, transferAmount);
+					bank.transferFunds(sourceAccount, targetAccount, transferAmount);
 
 					returnToMainMenu = askToReturnToMainMenu(sc);
 					if (returnToMainMenu) {
@@ -438,10 +454,7 @@ public class BankManager {
 				isRunning = false;
 				break;
 			}
-			default: {
-				System.out.println("Opção inválida.");
-				break;
-			}
+
 			}
 		} while (isRunning);
 
@@ -477,10 +490,10 @@ public class BankManager {
 			if (option >= 0 && option <= 8) {
 				return option;
 			} else {
-				throw new InvalidMenuOptionException("Opcao invalida. Por favor, selecione uma opcao entre 0 e 8.");
+				throw new InvalidMenuOptionException("Opcao invalida. Por favor, selecione uma opcao entre 0 e 8.\n");
 			}
 		} catch (NumberFormatException e) {
-			throw new InvalidMenuOptionException("Entrada invalida. Por favor, digite um numero.");
+			throw new InvalidMenuOptionException("Entrada invalida. Por favor, digite um numero.\n");
 		}
 	}
 
@@ -489,9 +502,9 @@ public class BankManager {
 		String name, socialNumber = null;
 		boolean validSocialNumber = false;
 
-		System.out.println("\nInforme os dados do cliente:\n");
+		System.out.println("\nInforme os dados do cliente:");
 
-		System.out.print("Nome completo do titular da conta: ");
+		System.out.print("\nNome completo do titular da conta: ");
 		name = sc.nextLine();
 
 		do {
@@ -501,13 +514,12 @@ public class BankManager {
 
 				if (socialNumber.length() != socialNumberLength || !socialNumber.matches("\\d+")) {
 					throw new InvalidSocialNumberException(
-							"CPF invalido: O CPF deve ter exatamente 11 digitos numericos.");
+							"\nCPF invalido: O CPF deve ter exatamente 11 digitos numericos.");
 				}
 				validSocialNumber = true;
 			} catch (InvalidSocialNumberException e) {
-				clearScreen();
 				System.out.println(e.getMessage());
-				System.out.println("Por favor, tente novamente.\n");
+				System.out.println("\nPor favor, tente novamente.");
 			}
 		} while (!validSocialNumber);
 
@@ -573,7 +585,7 @@ public class BankManager {
 			System.out.println("N - Nao.");
 			initialDepositOption = sc.nextLine().toUpperCase();
 			if (initialDepositOption == NO_OPTION) {
-				clearScreen();
+				
 				return initialDepositOption;
 
 			}
