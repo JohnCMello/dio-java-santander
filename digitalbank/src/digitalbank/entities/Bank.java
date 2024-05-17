@@ -86,7 +86,7 @@ public class Bank {
 		return totalBalance;
 	}
 
-	public void transferFunds(String customerSocialNumber, Account sourceAccount, Account targetAccount, double amount)
+	public void transferFunds(Account sourceAccount, Account targetAccount, double amount)
 			throws InsufficientBalanceException {
 		if (!sourceAccount.hasSufficientFunds(amount)) {
 			throw new InsufficientBalanceException("Saldo insuficiente na conta de origem");
