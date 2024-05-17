@@ -2,6 +2,7 @@ package digitalbank.entities;
 
 import digitalbank.enums.AccountType;
 import digitalbank.exceptions.InsufficientBalanceException;
+import digitalbank.exceptions.InvalidAmountEcxeption;
 
 public class SavingsAccount extends Account {
 
@@ -12,10 +13,12 @@ public class SavingsAccount extends Account {
 		this.interestRate = interestRate;
 	}
 
-	public SavingsAccount(Customer customer, double initialDeposit, double interestRate) {
+	public SavingsAccount(Customer customer, double initialDeposit, double interestRate) throws InvalidAmountEcxeption {
 		super(customer, initialDeposit, AccountType.SAVINGS);
+		if(initialDeposit < 0) {
+			throw new InvalidAmountEcxeption("O valor do deposito nao pode ser um numero negativo.\n");
+		}
 		this.interestRate = interestRate;
-		
 	}
 
 	public double getInterestRate() {

@@ -2,6 +2,7 @@ package digitalbank.entities;
 
 import digitalbank.enums.AccountType;
 import digitalbank.exceptions.InsufficientBalanceException;
+import digitalbank.exceptions.InvalidAmountEcxeption;
 
 public class CheckingAccount extends Account {
 	private double overdraftLimitTotal;
@@ -13,8 +14,14 @@ public class CheckingAccount extends Account {
 		this.overdraftLimitInUse = 0.0;
 	}
 
-	public CheckingAccount(Customer customer, double inicialDeposit, double overdraft) {
+	public CheckingAccount(Customer customer, double inicialDeposit, double overdraft) throws InvalidAmountEcxeption {
 		super(customer, inicialDeposit, AccountType.CHECKING);
+		if(inicialDeposit < 0) {
+			throw new InvalidAmountEcxeption("O valor do deposito nao pode ser um numero negativo\n");
+		}
+		if(overdraftLimitTotal < 0) {
+			throw new InvalidAmountEcxeption("O valor do cheque especial nao pode ser um numero negativo\n");
+		}
 		this.overdraftLimitTotal = overdraft;
 		this.overdraftLimitInUse = 0.0;	}
 
