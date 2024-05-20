@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import digitalbank.enums.AccountType;
-import digitalbank.exceptions.AccountNotFoundException;
 import digitalbank.exceptions.InvalidMenuOptionException;
 import digitalbank.exceptions.InvalidSocialNumberException;
 
@@ -22,11 +21,11 @@ public class BankManager {
 		boolean isRunning = true;
 		boolean isFirstLoad = true;
 		int option;
-	
+
 		do {
 			displayMenu();
-			if(isFirstLoad) {
-				isFirstLoad=false;
+			if (isFirstLoad) {
+				isFirstLoad = false;
 				clearScreen();
 				displayMenu();
 			}
@@ -163,6 +162,133 @@ public class BankManager {
 				}
 			}
 			case 3: {
+				String accountType, socialNumber, confirmDepositOption;
+				boolean isSavingsAccount = false;
+				boolean returnToMainMenu = false;
+				
+				double depositAmount = 0d;
+
+				try {
+					clearScreen();
+					System.out.println("######################################");
+					System.out.println("       *** Realizar Deposito ***      ");
+					System.out.println("######################################\n");
+
+					accountType = getAccountType(sc);
+
+					isSavingsAccount = accountType.equals(SAVINGS_ACCOUNT_OPTION);
+
+					socialNumber = getCustomerSocialNumber(sc);
+
+					Account account = bank.getAccountByCustomerSocialNumber(socialNumber,
+							isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING);
+					
+					System.out.println("\nDigite o valor do deposito:");
+					depositAmount = sc.nextDouble();
+					sc.nextLine();
+										
+					do {
+						System.out.println("\nConfirmar deposito? (S/N)");
+						confirmDepositOption = sc.nextLine().toUpperCase();
+
+						if (confirmDepositOption.equals(NO_OPTION)) {
+							returnToMainMenu = askToReturnToMainMenu(sc);
+							break;
+
+						}
+					} while (!confirmDepositOption.equals(YES_OPTION)
+							&& !confirmDepositOption.equals(NO_OPTION));
+					
+					if (returnToMainMenu) {
+						clearScreen();
+						break;
+					}
+					
+					account.deposit(depositAmount);
+					System.out.println("\nDeposito realizado com sucesso.");
+					System.out.println(account);
+					
+					returnToMainMenu = askToReturnToMainMenu(sc);
+					if (returnToMainMenu) {
+						clearScreen();
+						break;
+					}
+				} catch (Exception e) {
+					displayError(e);
+
+					returnToMainMenu = askToReturnToMainMenu(sc);
+
+					if (returnToMainMenu) {
+						clearScreen();
+						break;
+					}
+				}
+
+			}
+			case 4: {
+				String accountType, socialNumber, confirmDepositOption;
+				boolean isSavingsAccount = false;
+				boolean returnToMainMenu = false;
+				
+				double withdrawAmount = 0d;
+
+				try {
+					clearScreen();
+					System.out.println("######################################");
+					System.out.println("       *** Realizar Saque ***      ");
+					System.out.println("######################################\n");
+
+					accountType = getAccountType(sc);
+
+					isSavingsAccount = accountType.equals(SAVINGS_ACCOUNT_OPTION);
+
+					socialNumber = getCustomerSocialNumber(sc);
+
+					Account account = bank.getAccountByCustomerSocialNumber(socialNumber,
+							isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING);
+					
+					System.out.println("\nDigite o valor do deposito:");
+					withdrawAmount = sc.nextDouble();
+					sc.nextLine();
+										
+					do {
+						System.out.println("\nConfirmar Saque? (S/N)");
+						confirmDepositOption = sc.nextLine().toUpperCase();
+
+						if (confirmDepositOption.equals(NO_OPTION)) {
+							returnToMainMenu = askToReturnToMainMenu(sc);
+							break;
+
+						}
+					} while (!confirmDepositOption.equals(YES_OPTION)
+							&& !confirmDepositOption.equals(NO_OPTION));
+					
+					if (returnToMainMenu) {
+						clearScreen();
+						break;
+					}
+					account.withdraw(withdrawAmount);
+					System.out.println("\nDeposito realizado com sucesso.");
+					System.out.println(account);
+					
+					returnToMainMenu = askToReturnToMainMenu(sc);
+					if (returnToMainMenu) {
+						clearScreen();
+						break;
+					}
+				} catch (Exception e) {
+					displayError(e);
+
+					returnToMainMenu = askToReturnToMainMenu(sc);
+
+					if (returnToMainMenu) {
+						clearScreen();
+						break;
+					}
+				}
+
+			}
+			case 5: {
 				String accountType, socialNumber, removeAccountConfirmationOption;
 				boolean isSavingsAccount = false;
 				boolean returnToMainMenu = false;
@@ -179,22 +305,13 @@ public class BankManager {
 
 					socialNumber = getCustomerSocialNumber(sc);
 
-					clearScreen();
-
 					do {
 						System.out.println("\nConfirma remover conta? (S/N)");
 						removeAccountConfirmationOption = sc.nextLine().toUpperCase();
 
 						if (removeAccountConfirmationOption.equals(NO_OPTION)) {
-							do {
-								returnToMainMenu = askToReturnToMainMenu(sc);
-
-							} while (!returnToMainMenu);
-
-							if (returnToMainMenu)
-								clearScreen();
-								break;
-
+							returnToMainMenu = askToReturnToMainMenu(sc);
+							break;
 						}
 					} while (!removeAccountConfirmationOption.equals(YES_OPTION)
 							&& !removeAccountConfirmationOption.equals(NO_OPTION));
@@ -233,7 +350,7 @@ public class BankManager {
 				}
 
 			}
-			case 4: {
+			case 6: {
 				boolean returnToMainMenu = false;
 				String accountType;
 				boolean isSavingsAccount = false;
@@ -262,12 +379,11 @@ public class BankManager {
 							break;
 						}
 					}
-					
-					System.out.println(
-							"\nTotals de contas " + (isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING)
-									+ ": " + accounts.size());
+
+					System.out.println("\nTotals de contas "
+							+ (isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING) + ": " + accounts.size());
 					System.out.println("######################################\n");
-					
+
 					for (Account account : accounts) {
 						System.out.println(account);
 					}
@@ -288,7 +404,7 @@ public class BankManager {
 					}
 				}
 			}
-			case 5: {
+			case 7: {
 				String socialNumber;
 				boolean returnToMainMenu = false;
 				List<Account> customerAccounts;
@@ -324,7 +440,7 @@ public class BankManager {
 					}
 				}
 			}
-			case 6: {
+			case 8: {
 				String socialNumber;
 				boolean returnToMainMenu = false;
 
@@ -337,6 +453,7 @@ public class BankManager {
 					socialNumber = getCustomerSocialNumber(sc);
 
 					double totalBalance = bank.getTotalBalance(socialNumber);
+
 					List<Account> customerAccounts = bank.getAllAccountsBySocialNumber(socialNumber);
 
 					Account accountData = customerAccounts.get(0);
@@ -371,7 +488,7 @@ public class BankManager {
 					}
 				}
 			}
-			case 7: {
+			case 9: {
 				String sourceSocialNumber, targetSocialNumber, sourceAccountType, targetAccountType;
 				boolean returnToMainMenu = false;
 				boolean isSavingsAccount = false;
@@ -472,11 +589,13 @@ public class BankManager {
 		System.out.println(">>> Selecione uma opcao:\n");
 		System.out.println("1 - Criar nova conta.");
 		System.out.println("2 - Acessar uma conta.");
-		System.out.println("3 - Remover uma conta.");
-		System.out.println("4 - Listar todas as contas");
-		System.out.println("5 - Listar todas as contas de um cliente.");
-		System.out.println("6 - Saldo total de um cliente.");
-		System.out.println("7 - Transferir fundos.");
+		System.out.println("3 - Realizar deposito");
+		System.out.println("4 - Realizar saque");
+		System.out.println("5 - Remover uma conta.");
+		System.out.println("6 - Listar todas as contas");
+		System.out.println("7 - Listar todas as contas de um cliente.");
+		System.out.println("8 - Saldo total de um cliente.");
+		System.out.println("9 - Transferir fundos.");
 		System.out.println("0 - Encerrar programa.");
 		System.out.println("\n######################################");
 	}
@@ -487,7 +606,7 @@ public class BankManager {
 
 		try {
 			int option = Integer.parseInt(input);
-			if (option >= 0 && option <= 8) {
+			if (option >= 0 && option <= 9) {
 				return option;
 			} else {
 				throw new InvalidMenuOptionException("Opcao invalida. Por favor, selecione uma opcao entre 0 e 8.\n");
@@ -585,7 +704,7 @@ public class BankManager {
 			System.out.println("N - Nao.");
 			initialDepositOption = sc.nextLine().toUpperCase();
 			if (initialDepositOption == NO_OPTION) {
-				
+
 				return initialDepositOption;
 
 			}
