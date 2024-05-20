@@ -40,7 +40,10 @@ public class CheckingAccount extends Account {
 	}
 
 	@Override
-	public void deposit(double amount) {
+	public void deposit(double amount) throws InvalidAmountEcxeption {
+		if(amount < 0 ) {
+			throw new InvalidAmountEcxeption("Não é possivel realizar o deposito de um numero negativo");
+		}
 		if (overdraftLimitInUse > 0) {
 			updateBalanceAndOverdraft(amount);
 		} else {
@@ -49,11 +52,14 @@ public class CheckingAccount extends Account {
 	}
 
 	@Override
-	public void withdraw(double value) throws InsufficientBalanceException {
-		if (!hasSufficientFunds(value)) {
+	public void withdraw(double amount) throws InvalidAmountEcxeption, InsufficientBalanceException {
+		if(amount < 0 ) {
+			throw new InvalidAmountEcxeption("Não é possivel realizar o deposito de um numero negativo");
+		}
+		if (!hasSufficientFunds(amount)) {
             throw new InsufficientBalanceException("Saldo insuficiente");
         }
-        double remainingBalance = balance - value;
+        double remainingBalance = balance - amount;
         if (remainingBalance < 0) {
             overdraftLimitInUse += Math.abs(remainingBalance);
             balance = 0;
@@ -63,9 +69,9 @@ public class CheckingAccount extends Account {
 	}
 
 	@Override
-	public void transfer(Account destination, double value) throws InsufficientBalanceException {
-		withdraw(value);
-        destination.deposit(value);
+	public void transfer(Account destination, double amount) throws InsufficientBalanceException, InvalidAmountEcxeption {
+		withdraw(amount);
+        destination.deposit(amount);
 	}
 
 	@Override
