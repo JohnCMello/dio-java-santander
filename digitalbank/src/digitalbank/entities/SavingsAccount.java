@@ -16,6 +16,7 @@ public class SavingsAccount extends Account {
 	public SavingsAccount(Customer customer, double initialDeposit, double interestRate) throws InvalidAmountEcxeption {
 		super(customer, initialDeposit, AccountType.SAVINGS);
 		if (initialDeposit < 0) {
+		if (initialDeposit < 0) {
 			throw new InvalidAmountEcxeption("O valor do deposito nao pode ser um numero negativo.\n");
 		}
 		this.interestRate = interestRate;
@@ -34,13 +35,19 @@ public class SavingsAccount extends Account {
 
 	@Override
 	public void deposit(double amount) throws InvalidAmountEcxeption {
+	public void deposit(double amount) throws InvalidAmountEcxeption {
 		if (amount < 0) {
+			throw new InvalidAmountEcxeption("Valor do depósito não pode ser negativo");
 			throw new InvalidAmountEcxeption("Valor do depósito não pode ser negativo");
 		}
 		balance += amount;
 	}
 
 	@Override
+	public void withdraw(double amount) throws InsufficientBalanceException, InvalidAmountEcxeption {
+		if (amount < 0) {
+			throw new InvalidAmountEcxeption("Valor do depósito não pode ser negativo");
+		}
 	public void withdraw(double amount) throws InsufficientBalanceException, InvalidAmountEcxeption {
 		if (amount < 0) {
 			throw new InvalidAmountEcxeption("Valor do depósito não pode ser negativo");
