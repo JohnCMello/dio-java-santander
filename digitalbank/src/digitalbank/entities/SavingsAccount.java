@@ -35,7 +35,6 @@ public class SavingsAccount extends Account {
 	}
 
 	@Override
-
 	public void deposit(double amount) throws InvalidAmountEcxeption {
 		if (amount < 0) {
 			throw new InvalidAmountEcxeption("Valor do depósito não pode ser negativo");

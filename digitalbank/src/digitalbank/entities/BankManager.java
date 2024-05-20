@@ -247,7 +247,7 @@ public class BankManager {
 					Account account = bank.getAccountByCustomerSocialNumber(socialNumber,
 							isSavingsAccount ? AccountType.SAVINGS : AccountType.CHECKING);
 					
-					System.out.println("\nDigite o valor do deposito:");
+					System.out.println("\nDigite o valor do saque:");
 					withdrawAmount = sc.nextDouble();
 					sc.nextLine();
 										
@@ -459,7 +459,9 @@ public class BankManager {
 					Account accountData = customerAccounts.get(0);
 
 					clearScreen();
-					System.out.println(" >>> Dados da conta: \n");
+					System.out.println("######################################");
+					System.out.println("        *** Dados da Conta ***        ");
+					System.out.println("######################################\n");
 					System.out.println("Titular: " + accountData.getCustomer().getName());
 					System.out.println("CPF : " + accountData.getCustomer().getSocialNumber());
 					System.out.println();
