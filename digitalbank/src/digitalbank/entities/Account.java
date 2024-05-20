@@ -4,6 +4,7 @@ import java.util.Random;
 
 import digitalbank.enums.AccountType;
 import digitalbank.exceptions.InsufficientBalanceException;
+import digitalbank.exceptions.InvalidAmountEcxeption;
 
 public abstract class Account {
 
@@ -20,7 +21,7 @@ public abstract class Account {
 		this.type = type;
 	}
 
-	public Account(Customer customer, double initialDeposit, AccountType type) {
+	public Account(Customer customer, double initialDeposit, AccountType type) throws InvalidAmountEcxeption {
 		this.customer = customer;
 		this.number = generateRandomNumber(11, 999999);
 		this.agency = generateRandomNumber(1, 999);
@@ -29,11 +30,11 @@ public abstract class Account {
 		deposit(initialDeposit);
 	}
 
-	public abstract void deposit(double amount);
+	public abstract void deposit(double amount) throws InvalidAmountEcxeption;
 
-	public abstract void withdraw(double amount) throws InsufficientBalanceException;
+	public abstract void withdraw(double amount) throws InsufficientBalanceException, InvalidAmountEcxeption;
 
-	public abstract void transfer(Account target, double amount) throws InsufficientBalanceException;
+	public abstract void transfer(Account target, double amount) throws InsufficientBalanceException, InvalidAmountEcxeption;
 
 	protected abstract boolean hasSufficientFunds(double amount);
 
