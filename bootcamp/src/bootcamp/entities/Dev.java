@@ -1,49 +1,44 @@
 package bootcamp.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Dev {
 	private String name;
 	private String email;
 
-	private Map<String, Mentorship> mentorshipProgramsEnrolled;
-	private Map<String, Boolean> mentorshipProgramsFinished;
+	private int xp;
 
-	private Map<String, Course> coursesEnrolled;
-	private Map<String, Boolean> coursesFinished;
-
-	private Map<String, Bootcamp> bootcampsEnrolled;
-	private Map<String, Boolean> bootcampsFinished;
+	private List<Mentorship> mentorshipProgramsEnrolled;
+	private List<Bootcamp> bootcampsEnrolled;
+	private List<Course> coursesEnrolled;
 
 	public Dev(String name, String email) {
-
 		this.name = name;
 		this.email = email;
-		this.mentorshipProgramsEnrolled = new HashMap<>();
-		this.mentorshipProgramsFinished = new HashMap<>();
-		this.coursesEnrolled = new HashMap<>();
-		this.coursesFinished = new HashMap<>();
-		this.bootcampsEnrolled = new HashMap<>();
-		this.bootcampsFinished = new HashMap<>();
+		this.bootcampsEnrolled = new ArrayList<>();
+		this.coursesEnrolled = new ArrayList<>();
+
+		this.mentorshipProgramsEnrolled = new ArrayList<>();
 
 	}
 
-	public void applyToBootcamp(Bootcamp bootcamp) {
-		bootcampsEnrolled.put(bootcamp.getName(), bootcamp);
+	public void enrollBootcamp(Bootcamp bootcamp) {
+		bootcampsEnrolled.add(bootcamp);
 	}
 
-	public void advance() {
-
+	public void enrollCourse(Course course) {
+		coursesEnrolled.add(course);
 	}
 
-	public int calculateXpTotal() {
-		return 0;
-
+	public void enrollMentorship(Mentorship mentorship) {
+		mentorshipProgramsEnrolled.add(mentorship);
 	}
 
-	public void showCourses() {
-
+	public int calculateTotalXp() {
+		return xp;
 	}
 
 	public String getName() {
@@ -54,30 +49,23 @@ public class Dev {
 		return email;
 	}
 
-	public Map<String, Mentorship> getMentorshipProgramsEnrolled() {
+	public List<Mentorship> getEnrolledMentorships() {
 		return mentorshipProgramsEnrolled;
 	}
 
-	public Map<String, Boolean> getMentorshipProgramsFinished() {
-		return mentorshipProgramsFinished;
-	}
-
-	public Map<String, Course> getCoursesEnrolled() {
+	public List<Course> getEnrolledCourses() {
 		return coursesEnrolled;
 	}
 
-	public Map<String, Boolean> getCoursesFinished() {
-		return coursesFinished;
+	@Override
+	public String toString() {
+		return "Dev [name=" + name + ", email=" + email + ", xp=" + xp + ", mentorshipProgramsEnrolled="
+				+ mentorshipProgramsEnrolled + ", bootcampsEnrolled=" + bootcampsEnrolled + ", coursesEnrolled="
+				+ coursesEnrolled + "]";
 	}
 
-	public Map<String, Bootcamp> getBootcampsEnrolled() {
+	public List<Bootcamp> getEnrolledBootcamps() {
 		return bootcampsEnrolled;
 	}
-
-	public Map<String, Boolean> getBootcampsFinished() {
-		return bootcampsFinished;
-	}
-
-	
 
 }

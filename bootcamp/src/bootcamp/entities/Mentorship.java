@@ -1,44 +1,33 @@
 package bootcamp.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import interfaces.CalculateXp;
+public class Mentorship extends Content {
 
-public class Mentorship implements CalculateXp {
-	private String title;
-	private String description;
 	private LocalDate mentorshipDate;
-	private int xpValue;
 
-	
-	public Mentorship(String title, String description, int xpValue,LocalDate mentorshipDate) {
-		this.title = title;
-		this.description = description;
-		this.mentorshipDate = mentorshipDate;
-		this.xpValue = xpValue;
+	public Mentorship(String title, String description, String mentorshipDate, int xpValue) {
+		super(title, description, xpValue);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		this.mentorshipDate = LocalDate.parse(mentorshipDate, formatter);
+		;
+
 	}
 
 	@Override
-	public int calculateXp() {
-		return 0;
-
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getDescription() {
-		return description;
+	public String toString() {
+		return "Mentorship [title=" + title + ", description=" + description + ", mentorshipDate=" + mentorshipDate
+				+ ", xpValue=" + xpValue + "]";
 	}
 
 	public LocalDate getMentorshipDate() {
 		return mentorshipDate;
 	}
 
-	public int getXpValue() {
-		return xpValue;
+	@Override
+	public int getXp() {
+		return this.xpValue;
 	}
 
-	
 }

@@ -1,34 +1,35 @@
 package bootcamp.entities;
 
-import interfaces.CalculateXp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class Course implements CalculateXp {
-	private String title;
-	private String description;
+public class Course extends Content {
 	private int totalHours;
-
-	public Course(String title, String description, int totalHours) {
-		this.title = title;
-		this.description = description;
+	private LocalDate courseDate;
+	
+	public Course(String title, String description, int totalHours, String courseDate, int xpValue) {
+		super(title, description, xpValue);
 		this.totalHours = totalHours;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		this.courseDate = LocalDate.parse(courseDate, formatter);
 	}
 
 	@Override
-	public int calculateXp() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String toString() {
+		return "Course [title=" + title + ", description=" + description + ", totalHours=" + totalHours
+				+ ", courseDate=" + courseDate + "]";
 	}
 
-	public String getTitle() {
-		return title;
+	@Override
+	public int getXp() {
+		return xpValue;
 	}
-
-	public String getDescription() {
-		return description;
-	}
-
 	public int getTotalHours() {
 		return totalHours;
 	}
+
+	 public LocalDate getCourseDate() {
+	        return courseDate;
+	    }
 
 }
