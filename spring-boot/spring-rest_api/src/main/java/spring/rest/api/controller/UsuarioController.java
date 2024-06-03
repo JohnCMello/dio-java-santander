@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import spring.rest.api.handler.BusinessException;
 import spring.rest.api.model.Usuario;
 import spring.rest.api.repository.UsuarioRepository;
 
@@ -22,6 +23,9 @@ public class UsuarioController {
 
     @PostMapping("/usuarios")
     public void post(@RequestBody Usuario usuario){
+    	if(usuario.getLogin() == null) {
+    		throw new BusinessException("Defina o nome para o usuario");
+    	}
         repository.save(usuario);
     }
     @PutMapping("/usuarios")

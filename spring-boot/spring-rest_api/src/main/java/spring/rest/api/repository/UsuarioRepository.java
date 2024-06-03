@@ -31,7 +31,7 @@ public class UsuarioRepository {
     }
     public Usuario finById(Integer id){
         System.out.println(String.format("GET/id - Recebendo o id: %d para localizar um usuário", id));
-        return new Usuario("John get","password");
+        return new Usuario("John","password");
     }
 
 }
