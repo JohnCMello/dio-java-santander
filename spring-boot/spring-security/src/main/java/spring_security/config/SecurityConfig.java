@@ -17,20 +17,17 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-	
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		   http.authorizeRequests()
-	         .requestMatchers(HttpMethod.GET,"/").permitAll()
-	         .requestMatchers(HttpMethod.GET,"/login").permitAll()
-	         .requestMatchers(HttpMethod.GET,"/managers").hasAnyRole("MANAGERS")
-	         .requestMatchers(HttpMethod.GET,"/users").hasAnyRole("USERS", "MANAGERS")
-	         .anyRequest().authenticated().and().formLogin();
-		     
-	     return http.build();
+		http.authorizeRequests().requestMatchers(HttpMethod.GET, "/").permitAll()
+				.requestMatchers(HttpMethod.GET, "/login").permitAll().requestMatchers(HttpMethod.GET, "/managers")
+				.hasAnyRole("MANAGERS").requestMatchers(HttpMethod.GET, "/users").hasAnyRole("USERS", "MANAGERS")
+				.anyRequest().authenticated().and().formLogin();
+
+		return http.build();
 	}
-	
-	
+
 	@Bean
 	public UserDetailsService user() {
 		UserDetails user = User.builder().username("john").password("{noop}john123").roles("USERS").build();
