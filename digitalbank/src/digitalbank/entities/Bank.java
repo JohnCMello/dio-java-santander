@@ -10,6 +10,7 @@ import digitalbank.exceptions.AccountNotFoundException;
 import digitalbank.exceptions.IdenticalAccountNumberException;
 import digitalbank.exceptions.IdenticalAccountTypeException;
 import digitalbank.exceptions.InsufficientBalanceException;
+import digitalbank.exceptions.InvalidAmountEcxeption;
 import digitalbank.exceptions.NoAccountsCreatedException;
 
 public class Bank {
@@ -87,7 +88,7 @@ public class Bank {
 	}
 
 	public void transferFunds(Account sourceAccount, Account targetAccount, double amount)
-			throws InsufficientBalanceException {
+			throws InsufficientBalanceException, InvalidAmountEcxeption {
 		if (!sourceAccount.hasSufficientFunds(amount)) {
 			throw new InsufficientBalanceException("Saldo insuficiente na conta de origem");
 		}
